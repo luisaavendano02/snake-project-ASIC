@@ -1,4 +1,4 @@
-all: test_snake
+	all: test_snake
 
 test_snake:
 	rm -rf sim/; mkdir sim/
@@ -17,5 +17,26 @@ test_cocotb:
 		SIM=icarus \
 		PYTHONPATH=$(PWD)/tb
 
+# --- Síntesis FPGA con Quartus ---
+project:
+	quartus_sh -t snake_top.tcl
+
+syn: project
+	quartus_map snake_top
+
+fit: syn
+	quartus_fit snake_top
+
+asm: fit
+	quartus_asm snake_top
+
+sta: asm
+	quartus_sta snake_top
+
+fpga: sta
+
+program:
+	quartus_pgm -m jtag -o "p;output_files/snake_top.sof"
+
 clean:
-	rm -rf sim/ sim_build/ results.xml
+	rm -rf sim/ sim_build/ results.xml output_files/ db/ incremental_db/
