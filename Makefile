@@ -1,21 +1,21 @@
-# Variables
-NAME    = snake_top
-RTL     = rtl/snake_top.v rtl/game_core.v rtl/spi_driver.v rtl/seven_seg.v
-TB      = tb/tb_$(NAME).v
-VVP     = sim/$(NAME).vvp
-VCD     = sim/$(NAME).vcd
+all: test_snake
 
-# Compilar y simular
-sim: $(VVP)
-	vvp $(VVP)
+test_snake:
+	rm -rf sim/; mkdir sim/
+	iverilog -o sim/tb_snake_top.vvp -s tb_snake_top tb/tb_snake_top.v rtl/snake_top.v rtl/game_core.v rtl/spi_driver.v rtl/seven_seg.v
+	./sim/tb_snake_top.vvp
 
-$(VVP): $(RTL) $(TB)
-	iverilog -g2005 -Wall -o $(VVP) $(TB) $(RTL)
-
-# Ver ondas
 wave:
-	gtkwave $(VCD) &
+	gtkwave sim/snake_top.vcd
 
-# Limpiar
+test_cocotb:
+	export PYTHONPATH=$(PWD)/tb && \
+	$(MAKE) -f $(shell cocotb-config --makefiles)/Makefile.sim \
+		TOPLEVEL=snake_top \
+		MODULE=tb_snake_top \
+		VERILOG_SOURCES="rtl/snake_top.v rtl/game_core.v rtl/spi_driver.v rtl/seven_seg.v" \
+		SIM=icarus \
+		PYTHONPATH=$(PWD)/tb
+
 clean:
-	rm -f $(VVP) $(VCD)
+	rm -rf sim/ sim_build/ results.xml
