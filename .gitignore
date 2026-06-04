@@ -14,3 +14,6 @@ output_files/
 sim/*.vcd
 sim/*.vvp
 a.out
+# Cocotb
+results.xml
+sim_build/
