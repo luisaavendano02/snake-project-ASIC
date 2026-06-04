@@ -1,0 +1,16 @@
+# Archivos de Quartus
+db/
+incremental_db/
+output_files/
+*.qws
+*.dpf
+*.pof
+*.sof
+*.jdi
+*.pin
+*.bak
+
+# Simulación
+sim/*.vcd
+sim/*.vvp
+a.out
