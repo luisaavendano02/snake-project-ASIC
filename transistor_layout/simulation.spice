@@ -1,0 +1,38 @@
+* Simulacion de MOSFET N-channel - sky130A
+* Snake Project - Transistor Layout
+
+* Modelos Sky130
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+* Incluir el MOSFET extraido
+.include mosfet.spice
+
+* Instanciar el MOSFET como inversor con resistor
+Xcell gate drain source mosfet
+
+* Alimentacion VDD = 1.8V
+Vdd vdd 0 1.8
+
+* Resistor de carga de drain a VDD
+R1 vdd drain 10k
+
+* Source a tierra
+Vs source 0 0
+
+* Substrato a tierra
+Vb VSUBS 0 0
+
+* Pulso en el gate
+Vg gate 0 pulse(0 1.8 1n 10p 10p 2n 4n)
+
+* Analisis transitorio
+.tran 10p 8n
+
+* Simulacion
+.control
+run
+plot gate drain
+.endc
+
+.end
+
