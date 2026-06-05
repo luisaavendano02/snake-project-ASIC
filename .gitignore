@@ -13,7 +13,11 @@ output_files/
 # Simulación
 sim/*.vcd
 sim/*.vvp
-a.out
+
 # Cocotb
 results.xml
 sim_build/
+
+# Netlist generado por Yosys
+yosys/synth/
+yosys/synthesis.log
