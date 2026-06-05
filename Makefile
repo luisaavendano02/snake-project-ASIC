@@ -1,4 +1,4 @@
-	all: test_snake
+all: test_snake
 
 test_snake:
 	rm -rf sim/; mkdir sim/
